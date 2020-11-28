@@ -1,0 +1,7 @@
+# Object Files
+*.o
+
+# Executables
+temp_client
+temp_server
+
