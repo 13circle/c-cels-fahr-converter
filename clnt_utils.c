@@ -11,26 +11,60 @@ void welcome_banner() {
   putchar('\n');
 }
 
-void validate_mode_input(int chk, int *mode) {
+void validate_mode_input(int *mode) {
+  char input[MAX_INPUT];
+  int i, isint;
   while(1) {
-    if(chk != 1)
-      printf("Please enter in integer only. \n");
-    else if(*mode < 1 || *mode > 3)
-      printf("Please enter numbers from 1 to 3 only. \n");
-    else break;
     printf("?> ");
-    chk = scanf("%d", mode);
+    fgets(input, MAX_INPUT, stdin);
+    input[strlen(input) - 1] = '\0';
+    if(!strlen(input)) {
+      printf("Please enter an integer \n");
+      continue;
+    }
+    for(i = 0, isint = 1; i < strlen(input); i++) {
+      if(!isdigit(input[i])) {
+        isint = 0;
+        break;
+      }
+    }
+    if(!isint || strchr(input, '.'))
+      printf("Please enter in integer only. \n");
+    else {
+      *mode = atoi(input);
+      if(*mode < 1 || *mode > 3)
+        printf("Please enter numbers from 1 to 3 only. \n");
+      else break;
+    }
   }
 }
 
-void validate_temp_input(int chk, double *temp) {
+void validate_temp_input(double *temp) {
+  char input[MAX_INPUT];
+  int i, isnum;
   while(1) {
-    if(chk != 1)
+    printf("?> ");
+    fgets(input, MAX_INPUT, stdin);
+    input[strlen(input) - 1] = '\0';
+    if(!strlen(input)){
+      printf("Please enter a number \n");
+      continue;
+    }
+    if(!isdigit(input[0]) || !isdigit(input[strlen(input) - 1]))
+      isnum = 0;
+    else {
+      for(i = 0, isnum = 1; i < strlen(input); i++) {
+        if(!isdigit(input[i]) && input[i] != '.') {
+          isnum = 0;
+          break;
+        }
+      }
+    }
+    if(!isnum)
       printf("Please enter in number only. \n");
     else break;
-    printf("?> ");
-    chk = scanf("%lf", temp);
   }
+  *temp = atof(input);
 }
 
 int input_mode() {
@@ -39,8 +73,7 @@ int input_mode() {
   printf("[1] Celsius to Fahrenheit \n");
   printf("[2] Fahrenheit to Celsius \n");
   printf("[3] Quit & Exit \n");
-  printf("?> ");
-  validate_mode_input(scanf("%d", &mode), &mode);
+  validate_mode_input(&mode);
   return mode;
 }
 
@@ -56,8 +89,7 @@ double input_temp(int mode) {
     exit(1);
   }
   printf("Enter a temperature (in %s): \n", mode_str);
-  printf("?> ");
-  validate_temp_input(scanf("%lf", &temp), &temp);
+  validate_temp_input(&temp);
   return temp;
 }
 
