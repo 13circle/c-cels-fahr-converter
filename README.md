@@ -1,3 +1,4 @@
+
 # c-cels-fahr-converter
 
 ### 0. Purpose
@@ -52,22 +53,22 @@
   - In <b>temp_server.c</b>
     1. Call <b>temp_serv_setup</b> from mysockets.* to setup connection, and then call <b>temp_serv_recv</b> to wait until client-side <b>sendto</b> is called by using server-side <b>recvfrom</b>.
     2. After receiving data from the client, do different tasks depending on the mode chosen by the client. There are 3 mode menus defined as macros:
-      - <b>CELS_TO_FAHR</b>: Convert Celsius to Fahrenheit.
-        - Uses <b>cels_to_fahr</b> called from cels_fahr_conv.*
-      - <b>FAHR_TO_CELS</b>: Convert Fahrenheit to Celsius.
-        - Uses <b>fahr_to_cels</b> called from cels_fahr_conv.*
-      - <b>QUIT_N_EXIT</b>: Quit and exit program.
+       - <b>CELS_TO_FAHR</b>: Convert Celsius to Fahrenheit.
+         - Uses <b>cels_to_fahr</b> called from cels_fahr_conv.*
+       - <b>FAHR_TO_CELS</b>: Convert Fahrenheit to Celsius.
+         - Uses <b>fahr_to_cels</b> called from cels_fahr_conv.*
+       - <b>QUIT_N_EXIT</b>: Quit and exit program.
     3. If the client choosed CELS_TO_FAHR or FAHR_TO_CELS, call <b>temp_serv_send</b> to send converted temperature data to the client.
     4. If the client choosed QUIT_N_EXIT, the server breaks out the loop and then call <b>temp_serv_close</b> after sending unconverted data to the client.
   - In <b>temp_client.c</b>
     1. Call <b>welcome_banner</b> and other utility and input validation functions from clnt_utils.* (called by following order):
-      - <b>welcome_banner</b>: Show title banner messages.
-      - <b>validate_mode_input</b>: Input validator for selecting correct mode.
-        - Called implicitly by clnt_utils.*
-      - <b>validate_temp_input</b>: Input validator for correct input temperature value.
-        - Called implicitly by clnt_utils.*
-      - <b>input_mode</b>: Show input prompt and return data for chosen mode menu.
-      - <b>input_temp</b>: Show input prompt and return data for input temperature.
+       - <b>welcome_banner</b>: Show title banner messages.
+       - <b>validate_mode_input</b>: Input validator for selecting correct mode.
+         - Called implicitly by clnt_utils.*
+       - <b>validate_temp_input</b>: Input validator for correct input temperature value.
+         - Called implicitly by clnt_utils.*
+       - <b>input_mode</b>: Show input prompt and return data for chosen mode menu.
+       - <b>input_temp</b>: Show input prompt and return data for input temperature.
     2. For CELS_TO_FAHR and FAHR_TO_CELS, call <b>temp_clnt</b> from mysockets.* and show different format string depending on a chosen mode and a converted temperature.
     3. For QUIT_N_EXIT, send data with mode QUIT_N_EXIT and dummy temperature value (e.i. 0) to notify program exit to the server and terminate the program.
 
