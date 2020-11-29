@@ -39,15 +39,66 @@
     -     make clean
 
 ### 3. Program Structure
-- <b><u>File Structure</u></b>
+- <b><u>File and Function Structure</u></b>
   - Client-side
     - temp_client.c: Client-side entry
     - clnt_utils.*: Utility functions for client (includes input validation)
+      - <b>void welcome_banner()</b>
+        - Show title and head descriptions
+      - <b>void validate_mode_input(int *mode)</b>
+        - Get mode input value and validate whether an input:
+          - is entered
+          - is integer
+      - <b>void validate_temp_input(double *temp)</b>
+        - Get temperature input value and validate whether an input:
+          - is entered
+          - is number
+      - <b>int input_mode()</b>
+        1. Show mode selection menu
+        2. Get mode input (validate_mode_input)
+      - <b>double input_temp(int mode)</b>
+        1. Show temperature input prompt depending on the mode value
+        2. Get temperature input (validate_temp_input)
   - Server-side
     - temp_server.c: Server-side entry
     - cels_vahr_conv.*: Celsius-Fahrenheit conversion functions
+      - <b>void cels_to_fahr(MYSOCK *data)</b>
+        - Convert data.temp to Fahrenheit
+      - <b>void fahr_to_cels(MYSOCK *data)</b>
+        - Convert data.temp to Celsius
   - Socket (UDP Connection)
     - mysockets.*: Both client and server socket-related functions
+      - <b>MYSOCK</b>: structure for socket configurations
+        - int sock: socket file descriptor
+        - int clen: size of clinet sockaddr_in
+        - struct sockaddr_in serv_addr: server address structure
+        - struct sockaddr_in clnt_addr: client address structure
+      - <b>TEMP_D</b>: struct to handle temperature data
+        - int mode: conversion mode (see Main Flow for detail)
+        - double temp: temperature value (Celsius & Fahrenheit)
+      - <b>void temp_clnt(MYSOCK *mysock, TEMP_D *data)</b>
+        1. Set socket file descriptor in mysock->sock
+        2. Initialize memory space for mysock->serv_addr
+        3. Configure mysock->serv_addr
+           - Set IP address and port
+        4. Send data to server (sendto)
+        5. Set mysock->clen as size of myscok->clnt_addr
+        6. Receive data from server (recvfrom)
+        7. close(mysock->sock)
+      - <b>void temp_serv_setup(MYSOCK *mysock)</b>
+        1. Set socket file descriptor in mysock->sock
+        2. Initialize memory space for mysock->serv_addr
+        3. Configure mysock->serv_addr
+           - Set port as same as client
+           - Set address to INADDR_ANY to accept different IP addresses
+        4. Bind serv_addr configurations with mysock->sock
+      - <b>void temp_serv_recv(MYSOCK *mysock, TEMP_D *data)</b>
+        1. Set mysock->clen as size of myscok->clnt_addr
+        2. Receive data from client (recvfrom)
+      - <b>void temp_serv_send(MYSOCK *mysock, TEMP_D *data)</b>
+        - Send data to client (sendto)
+      - <b>void temp_serv_close(MYSOCK *mysock)</b>
+        - close(mysock->sock)
   - Miscellaneous
     - mylibs.h: Set of system libraries used for this app
     - Makefile: <b>make</b> configuration script
