@@ -93,7 +93,7 @@
            - Set address to INADDR_ANY to accept different IP addresses
         4. Bind serv_addr configurations with mysock->sock
       - <b>void temp_serv_recv(MYSOCK *mysock, TEMP_D *data)</b>
-        1. Set mysock->clen as size of myscok->clnt_addr
+        1. Set mysock->clen as size of mysock->clnt_addr
         2. Receive data from client (recvfrom)
       - <b>void temp_serv_send(MYSOCK *mysock, TEMP_D *data)</b>
         - Send data to client (sendto)
