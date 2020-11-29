@@ -1,6 +1,8 @@
 
 # c-cels-fahr-converter
 
+<img src="./captures/full_test_capture.gif" /><br />
+
 ### 0. Purpose
 - MJU Computer Engineering System Programming class project (Fall, 2020)
 - To learn UDP socket programming
