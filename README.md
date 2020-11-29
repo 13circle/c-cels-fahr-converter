@@ -82,7 +82,7 @@
         3. Configure mysock->serv_addr
            - Set IP address and port
         4. Send data to server (sendto)
-        5. Set mysock->clen as size of myscok->clnt_addr
+        5. Set mysock->clen as size of mysock->clnt_addr
         6. Receive data from server (recvfrom)
         7. close(mysock->sock)
       - <b>void temp_serv_setup(MYSOCK *mysock)</b>
